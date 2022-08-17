@@ -1,0 +1,7 @@
+#!/usr/bin/sh
+
+cd /home/egsagon/docs/sb2/
+killall xborders
+./xborders --config config.json
+
+echo "\n"

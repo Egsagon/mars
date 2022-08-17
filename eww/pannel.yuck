@@ -1,0 +1,178 @@
+(defvar show-pannel false)
+
+; (defpoll pctl :interval "2s" :initial "{}" `playerctl metadata -f '{"title":"{{title}}","author":"{{artist}}"}'`)
+(defvar pctl `{"title": "None", "author": "None"}`)
+
+(defwidget prog [?var ?class]
+    (circular-progress
+        :value var
+        :thickness 3
+        :start-at 35
+        :clockwise false
+        :class "prog ${class}"
+
+        (children)
+    )
+)
+
+(defwindow pannel
+    :monitor 0
+    :geometry (geometry
+        :x -13 :y 13
+        :width "250px" :height "990px" ; pannel-box size: 250px
+        :anchor "top right"
+    )
+
+    (box
+        :halign "end"
+        :valign "fill"
+        :space-evenly false
+
+        (revealer
+            :reveal show-pannel
+            :transition "slideleft"
+            :duration "400ms"
+
+            (box
+                :orientation "vertical"
+                :space-evenly false
+
+                (centerbox
+                    :orientation "vertical"
+                    :halign "center"
+                    :class "pannel-box"
+                    ;:space-evenly false
+
+                    ; PP
+                    (image
+                        :path "./src/pp.png"
+                        :class "pp"
+                        :valign "start"
+                        :image-width 180
+                        :image-height 180
+                    )
+
+                    ; Info
+                    (box
+                        :orientation "vertical"
+                        :space-evenly false
+
+                        ; System
+                        (box
+                            :halign "center"
+
+                            ; Cores
+                            (box
+                                (for core in "${EWW_CPU.cores}"
+                                    (progress
+                                        :value "${core.usage}"
+                                        :orientation "vertical"
+                                        :flipped true
+                                        :halign "end"
+                                        :class "core"
+                                    )
+                                )
+                            )
+
+                            ; Progs
+                            (box
+                                ;:halign "fill"
+                                :orientation "vertical"
+                                
+                                (prog
+                                    :var "${EWW_RAM.used_mem_perc}"
+                                    :class "ram"
+
+                                    (prog
+                                        ;:var "${(EWW_RAM.free_swap * 100) / EWW_RAM.total_swap}"
+                                        :var 50
+                                        :class "swap"
+
+                                        "RAM"
+                                    )
+                                )
+
+                                (prog
+                                    :var "${EWW_NET['wlan0'].NET_DOWN > 99 ? 99 : EWW_NET['wlan0'].NET_DOWN}"
+                                    :class "net-up"
+
+                                    (prog
+                                        :var "${EWW_NET['wlan0'].NET_UP > 99 ? 99 : EWW_NET['wlan0'].NET_UP}"
+                                        :class "net-down"
+
+                                        "NET"
+                                    )
+                                )
+                            )
+                        )
+
+                        ; Music
+                        (box
+                            :orientation "vertical"
+                            :class "music-box"
+
+                            (box
+                                :orientation "vertical"
+                                :class "music-info"
+
+                                (label
+                                    :text "${pctl.title}"
+                                    :limit-width 15
+                                    :show-truncated true
+                                )
+    
+                                (label
+                                    :text "${pctl.author}"
+                                    :limit-width 15
+                                    :show-truncated true
+                                )
+                            )
+
+                            (box
+                                :class "music-ctrl"
+
+                                (button :onclick "playerctl previous" "玲")
+                                (button :onclick "playerctl play-pause" "")
+                                (button :onclick "playerctl next" "怜")
+                            )
+                        )
+                    )
+
+                    ; Tray
+                    (box
+                        :class "tray"
+                        :orientation "vertical"
+                        :valign "end"
+
+                        (box
+                            (button
+                                :onclick "eww open conf-shut"
+                                :class "tray-btn shut"
+                                ""
+                            )
+
+                            (button
+                                :onclick "eww open conf-rest"
+                                :class "tray-btn rest"
+                                "ﰇ"
+                            )
+
+                            (button
+                                :onclick "i3lock"
+                                :class "tray-btn sleep"
+                                "" ;⏾
+                            )
+                        )
+                    )
+                )
+
+                (image
+                    :path "./src/pannel-arrow.png"
+                    :class "pn-arrow"
+                    :valign "end"
+                )
+
+            )
+        )
+    )
+)

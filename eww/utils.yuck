@@ -1,0 +1,191 @@
+(defvar open-graph false)
+(defvar tab 1)
+
+(defwindow graph
+    :monitor 0
+    :geometry (geometry
+        :x -100 :y -700
+        :width "400px" :height "250px"
+        :anchor "bottom right"
+    )
+
+    (box
+        :space-evenly false
+
+        ; Tab toggle
+        (button
+            :onclick "eww update tab=${tab == 1 ? 2 : 1}"
+            :class "tab-switch"
+
+            (label
+                :text ""
+                :angle 90
+            )
+        )
+
+        ; Tabs
+        (box
+            :orientation "vertical"
+            :valign "center"
+
+            ; Tab 1
+            (expander
+                :expanded "${tab == 1}"
+                :class "expander"
+                
+                (revealer
+                    :reveal "${tab == 1}"
+                    :transition "slidedown"
+                    :duration "100ms"
+
+                    (box
+                        :orientation "vertical"
+                        :class "tab-1"
+
+                        (overlay
+                            (graph
+                                :value "${EWW_CPU.cores[0].usage}"
+                                :thickness 1
+                                :time-range "1m"
+                                :class "core-graph"
+                            )
+
+                            (graph
+                                :value "${EWW_CPU.cores[1].usage}"
+                                :thickness 1
+                                :time-range "1m"
+                                :class "core-graph"
+                            )
+
+                            (graph
+                                :value "${EWW_CPU.cores[2].usage}"
+                                :thickness 1
+                                :time-range "1m"
+                                :class "core-graph"
+                            )
+
+                            (graph
+                                :value "${EWW_CPU.cores[3].usage}"
+                                :thickness 1
+                                :time-range "1m"
+                                :class "core-graph"
+                            )
+                        )
+                    )
+                )
+            )
+
+            ; Tab 2
+            (expander
+                :expanded "${tab == 2}"
+                :class "expander"
+
+                (revealer
+                    :reveal "${tab == 2}"
+                    :transition "slideup"
+                    :duration "100ms"
+                    
+
+                    (box
+                        :style "background-color: red"
+                        :class "tab-2"
+                        "TEXT"
+                    )
+                )
+            )
+        )
+    )
+)
+
+(defwindow wk-helper
+    :monitor 0
+    :geometry (geometry
+        :x 30 :y -85
+        :width "40px" :height "50px"
+        :anchor "bottom left"
+    )
+    
+    (box
+        :orientation "vertical"
+
+        (overlay
+            (box
+                :halign "start"
+                :space-evenly false
+                
+                (for wk in wks
+                    (label
+                        :text "${wk['name']}"
+                        :valign "start"
+                        :class "wk-help"
+                        :style "color: ${wk['focused'] ? c-accent : c-com-fg}"
+                    )
+                )
+            )
+
+            (image
+                :path "./src/wk-helper-bg.png"
+                :image-height 50
+            )
+        )
+    )
+)
+
+(defwindow gif-settings
+    :monitor 0
+    :geometry (geometry
+        :x "-300px" :y "0px"
+        :width "150px" :height "50px"
+        :anchor "center right"
+    )
+
+    (combo-box-text
+        :items "['Cava', 'Mars', 'Cbonsai', 'Cmatrix']"
+        :onchange "eww close gif-settings; ./gif.sh {}"
+    )
+)
+
+(defwidget confirm [?str ?cmd ?win]
+    (box
+        :orientation "vertical"
+        :class "confirm"
+
+        (label :text str)
+        
+        (box
+            :halign "center"
+            (button :class "conf-btn" :onclick "eww close ${win}; ${cmd}" "Yes")
+            (button :class "conf-btn" :onclick "eww close ${win}" "No")
+        )
+    )
+)
+
+(defwindow conf-shut
+    :monitor 0
+    :geometry (geometry
+        :x -290 :y -130
+        :width "250px" :height "100px"
+        :anchor "bottom right"
+    )
+
+    (confirm
+        :str "Are you sure?"
+        :cmd "shutdown now"
+        :win "conf-shut"
+    )
+)
+
+(defwindow conf-rest
+    :monitor 0
+    :geometry (geometry
+        :x -290 :y -130
+        :width "250px" :height "100px"
+        :anchor "bottom right"
+    )
+
+    (confirm
+        :str "Are you sure?"
+        :cmd "reboot"
+        :win "conf-rest"
+    )
+)

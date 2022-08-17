@@ -1,0 +1,232 @@
+(defvar dhv-br false)
+(defvar dhv-sd false)
+(defvar tcava false)
+
+(defpoll wifi-name :interval "2s" :initial "..." `nmcli -t c | grep "wlan0"  | cut -d ":" -f 1`)
+(defpoll ping :interval "10s" :initial "..." ` ping 8.8.8.8 -c 1 | grep from | awk '{ print $7 }' | cut -d '=' -f 2`)
+(defpoll wttr :interval "10m" :initial "{}" `echo $(python3 wttr.py)`)
+
+(defwidget short [num ?cmd ?link]
+    (button
+        :class "sth sth${num}"
+        :onclick "${cmd ?: 'xdg-open https://${link}&'}"
+
+        (children)
+    )
+)
+
+(defwidget checkbk [onchange var varname ?content]
+    (eventbox
+        :onclick "eww update ${varname}=${!var}" ; ${onchange.replace('{}', var)}"
+        :onclick "eww update ${varname}=${!var}; ${onchange}"
+
+        (label
+            :halign "end"
+            :valign "start"
+            :text "${var ? '${content ?: `+`}' : ''}"
+            :class "bk"
+        )
+    )
+)
+
+(defwindow desk
+    :monitor 0
+    :geometry (geometry
+        :x 70 :y 0
+        :width "500px" :height "700px"
+        :anchor "center left"
+    )
+
+    (box
+        ; Left
+        (box
+            :class "bx b1"
+            :orientation "vertical"
+            
+            ; Weather
+            (box
+                :orientation "vertical"
+                :valign "center"
+
+                (box
+                    :halign "center"
+                    :space-evenly false
+
+                    ;(image
+                    ;    :class "wth-img"
+                    ;    :path "./src/pp.png"
+                    ;    :image-width 80
+                    ;)
+
+                    (label
+                        :class "wth-img"
+                        :text "${wttr.glyph}"
+                    )
+
+                    (label
+                        :class "wth-sep"
+                        :text "-"
+                    )
+
+                    (label
+                        :class "wth-header"
+                        :text "${wttr.header}"
+                        :limit-width 16
+                    )
+                )
+
+                (label
+                    :class "wth-desc"
+                    :text "${wttr.temp}, ${wttr.wind}"
+                )
+            )
+
+            ; Shortcuts
+            (box
+                :orientation "vertical"
+
+                (box
+                    :halign "center"
+
+                    (short :num "1" :link "github.com" "")
+                    (short :num "2" :cmd "nautilus -w &" "")
+                    (short :num "3" :link "youtube.com" "")
+                )
+
+                (box
+                    :halign "center"
+                    (short :num "4" :link "reddit.com" "")
+                    (short :num "5" :cmd "nautilus -w / &" "/")
+                    (short :num "6" :link "google.com" "")
+                )
+
+                (box
+                    :halign "center"
+                    (short :num "7" :link "gmail.com" "")
+                    (short :num "8" :cmd "nautilus -w ~/docs/ &" "")
+                    (short :num "9" :cmd "alacritty -e nmtui &" "")
+                )
+            )
+
+            ; System
+            (circular-progress
+                :value "${EWW_CPU['cores'][0].usage}"
+                :thickness 8
+                :start-at 25
+                :class "sys-cpu"
+
+                (circular-progress
+                    :value "${EWW_RAM.used_mem_perc}"
+                    :thickness 8
+                    :start-at 25
+                    :class "sys-ram"
+                    
+                    ;"SYS"
+                    (label
+                        :text "﬙"
+                        :class "sys-icon"
+                    )
+                )   
+            )
+        )
+
+        ; Right
+        (box
+            :orientation "vertical"
+            
+            (box
+                :class "bx b2"
+                :space-evenly false
+
+                (label
+                    :text "ﴽ"
+                    :class "wifi-logo"
+                )
+
+                (label
+                    :text "|"
+                    :class "wifi-sep"
+                )
+
+                (box
+                    :orientation "vertical"
+                    :valign "center"
+                    :class "wifi-content"
+
+                    (label
+                        :text "${wifi-name ?: 'Not connected'}"
+                        :halign "start"
+                        :limit-width 13
+                    )
+
+                    (label
+                        :text "${ping} ms"
+                        :halign "start"
+                    )
+                )
+            )
+
+            (box
+                :orientation "vertical"
+                :class "bx b3"
+                
+                (box
+                    :halign "center"
+                    (eventbox
+                        :onhover "eww update dhv-br=true"
+                        :onhoverlost "eww update dhv-br=false"
+
+                        (label
+                            :text ""
+                            :class "desk-lb-sc"
+                            :style "color: ${dhv-br ? c-accent : c-com-fg}"
+                        )
+                    )
+
+                    (eventbox
+                        :onhover "eww update dhv-sd=true"
+                        :onhoverlost "eww update dhv-sd=false"
+
+                        (label
+                            :text "ﱘ"
+                            :class "desk-lb-sc"
+                            :style "color: ${dhv-sd ? c-accent : c-com-fg}"
+                        )
+                    )
+                )
+
+                (scale
+                    :halign "center"
+                    :valign "center"
+                    :class "desk-scale ${dhv-br ? 'hv-scale' : ''}"
+                    :onchange "xrandr --output eDP-1 --brightness $(bc -l <<< 'scale=2; {}/100')"
+
+                    :value 70
+                )
+                
+                (scale
+                    :halign "center"
+                    :valign "center"
+                    :class "desk-scale ${dhv-sd ? 'hv-scale' : ''}"
+                    :onchange "amixer sset Master {}%"
+
+                    :value 35
+                )
+            )
+
+            (box
+                :class "bx b4"
+
+                (checkbk
+                    :onchange "${!tcava ? 'glava -d &' : 'killall glava'}"
+                    :var tcava
+                    :varname "tcava"
+                    :content ""
+                )
+            )
+        )
+    )
+)
+
+; TODO - Stack window in background
+; TODO - Check music widget on pannel
