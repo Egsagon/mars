@@ -1,0 +1,18 @@
+i3lock  -c 00000000 \
+	-e \
+	-S 0 \
+	--radius 70 \
+	--inside-color EEEEEEFF \
+	--ring-color EEEEEEFF \
+	--insidever-color EEEEEEFF \
+	--ringver-color 0000FFFF \
+	--insidewrong-color EEEEEEFF \
+	--ringwrong-color FF0000FF \
+	--line-color 00000000 \
+	--keyhl-color FF632FFF \
+	--bshl-color FF0000FF \
+	--separator-color 00000000 \
+	--verif-text "---" \
+	--wrong-text "-x-" \
+	--noinput-text "---" \
+	--ind-pos "200:540"

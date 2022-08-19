@@ -30,13 +30,25 @@
 )
 
 (defwindow desk
+<<<<<<< HEAD
     :monitor 0
+=======
+    ;:monitor 0
+>>>>>>> 0744749 (initial)
     :geometry (geometry
         :x 70 :y 0
         :width "500px" :height "700px"
         :anchor "center left"
     )
 
+<<<<<<< HEAD
+=======
+    :stacking "bg"
+    :focusable false
+    :screen 1
+    :wm-ignore false
+
+>>>>>>> 0744749 (initial)
     (box
         ; Left
         (box
@@ -227,6 +239,9 @@
         )
     )
 )
+<<<<<<< HEAD
 
 ; TODO - Stack window in background
 ; TODO - Check music widget on pannel
+=======
+>>>>>>> 0744749 (initial)

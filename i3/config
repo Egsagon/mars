@@ -153,7 +153,11 @@ for_window [title="tilda"] floating enable
 exec_always --no-startup-id .bain/bain mars
 
 # Open eww widgets
+<<<<<<< HEAD
 exec_always --no-startup-id eww open-many bar desk
+=======
+exec_always --no-startup-id eww open bar
+>>>>>>> 0744749 (initial)
 
 # Show or hide wk-helper
 exec_always --no-startup-id python3 ./check.py
@@ -169,4 +173,8 @@ exec_always --no-startup-id xbd
 bindsym $mod+shift+s exec flameshot gui
 
 # Stick desk widget
+<<<<<<< HEAD
 
+=======
+no_focus [class="eww-desk"]
+>>>>>>> 0744749 (initial)

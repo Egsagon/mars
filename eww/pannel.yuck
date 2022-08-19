@@ -158,7 +158,11 @@
                             )
 
                             (button
+<<<<<<< HEAD
                                 :onclick "i3lock"
+=======
+                                :onclick "/home/egsagon/.config/qtile/lock.sh"
+>>>>>>> 0744749 (initial)
                                 :class "tray-btn sleep"
                                 "" ;⏾
                             )

@@ -236,6 +236,14 @@ $c-sleep: #5FAD41;
     border-radius: 10px;
     margin: 4px 10px;
     padding: 0 20px;
+<<<<<<< HEAD
+=======
+    transition: all ease-in-out .2s;
+}
+
+.conf-btn:hover {
+    background-color: $c-accent;
+>>>>>>> 0744749 (initial)
 }
 
 .prog, .prog label {color: $c-com-fg;}
@@ -352,7 +360,11 @@ $c-sleep: #5FAD41;
 
 .sth5 {
     font-size: 40px;
+<<<<<<< HEAD
     border-color: $c-accent;
+=======
+    // border-color: $c-accent;
+>>>>>>> 0744749 (initial)
 }
 
 .sth1 {border-top-left-radius: 10px;}
