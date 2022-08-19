@@ -14,12 +14,6 @@
 
 (defvar hv-arrow false)
 
-<<<<<<< HEAD
-; Polls
-(defpoll hour :interval "10s" :initial "0" "date +%H:%M")
-(defpoll date :interval "1m" :initial "0" "date +%H:%M")
-(defpoll wks :interval "300ms" :initial "{}" "i3-msg -t get_workspaces")
-=======
 ; Date
 (defpoll hour :interval "10s" :initial "0" "date +%H:%M")
 (defpoll date :interval "1m" :initial "0" "date +%H:%M")
@@ -27,7 +21,6 @@
 ; Workspaces
 ; (defpoll wks :interval "300ms" :initial "{}" "i3-msg -t get_workspaces") ; on i3
 (defpoll wks :interval "300ms" :initial "{}" `echo $(python3 ./get_wks.py)`) ; on qtile
->>>>>>> 0744749 (initial)
 
 
 (defwidget rev-widget [?var ?varname ?yuck ?icon ?size]
@@ -70,20 +63,6 @@
         (eventbox
             :onhover "eww open wk-helper"
             :onhoverlost "eww close wk-helper"
-<<<<<<< HEAD
-
-
-            (box
-                :halign "start"
-                :space-evenly false
-                
-                (for wk in wks
-                    (label
-                        :text "${wk['focused'] ? '' : ''}"
-                        ;:tooltip "${wk['name']}"
-                        :class "wk"
-                        :style "color: ${wk['focused'] ? c-accent : c-com-fg}"
-=======
             (box
                 :halign "start"
                 :space-evenly false
@@ -93,7 +72,6 @@
                         :text "${wk['focused'] ? '' : ''}"
                         :style "color: ${wk['focused'] ? c-accent : c-com-fg}"
                         :class "wk"
->>>>>>> 0744749 (initial)
                     )
                 )
             )
