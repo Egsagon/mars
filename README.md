@@ -16,4 +16,6 @@ Color scheme (my own):
 
 ### Screenshots
 
-TODO
+![img1](src/mars1.png)
+![img2](src/mars2.png)
+![img3](src/mars3.png)
