@@ -3,7 +3,7 @@
 This is an attempt at making a light themed rice for my laptop.
 
 Color scheme (my own):
-  `#EEEEEE`, `B0BBBF`, `FF632F`, `FF7E47`, `19323C`.
+  `#EEEEEE`, `#B0BBBF`, `#FF632F`, `#FF7E47`, `#19323C`.
 
 ### Specs
 
