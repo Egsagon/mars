@@ -18,10 +18,12 @@
 (defwindow pannel
     :monitor 0
     :geometry (geometry
-        :x -13 :y 13
+        :x -16 :y 16
         :width "250px" :height "990px" ; pannel-box size: 250px
         :anchor "top right"
     )
+
+    :stacking "fg"
 
     (box
         :halign "end"

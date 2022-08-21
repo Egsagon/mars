@@ -158,6 +158,10 @@
     padding-bottom: 24px;
 }
 
+.tray {
+    margin-bottom: 10px;
+}
+
 .tray-btn {
     font-size: 45px;
     margin: 10px;
@@ -254,7 +258,7 @@ $c-sleep: #5FAD41;
 
 .pn-arrow {
     padding: 0;
-    margin: 0;
+    margin: -6px;
 }
 
 .music-box {
@@ -413,4 +417,22 @@ $c-sleep: #5FAD41;
 .sys-icon {
     font-size: 80px;
     color: $c-com-bg;
+}
+
+
+// ================================== //
+
+.txt {
+    border: 2px solid red;
+    border-radius: 50%;
+}
+
+.testtr {
+    background-color: blue;
+}
+
+.testbox {
+    min-width: 100px;
+    min-height: 100px;
+    background-color: red;
 }

@@ -7,6 +7,8 @@
 (include "./pannel.yuck")
 (include "./colors.yuck")
 
+(include "./test.yuck")
+
 ; Revealers
 (defvar rev-bat false)
 (defvar rev-brg false)
